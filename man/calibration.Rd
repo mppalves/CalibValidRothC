@@ -4,18 +4,27 @@
 \alias{calibration}
 \title{Calibration}
 \usage{
-calibration(data_source, stopval = 0.01, maxeval = 100, ub = 1.5, lb = 0.3)
+calibration(
+  data_source,
+  stopval = 0.01,
+  maxeval = 100,
+  ub = 1.2,
+  lb = 0.8,
+  print_nlopt = FALSE
+)
 }
 \arguments{
 \item{data_source}{data source pro processed via \link{expand_data_set}}
 
 \item{stopval}{Finishing criteria by error size}
 
-\item{maxeval}{Finihsing criteria by the number of algorithmic iterations}
+\item{maxeval}{Finishing criteria by the number of algorithmic iterations}
 
 \item{ub}{upper boundary}
 
 \item{lb}{lower boundary}
+
+\item{print_nlopt}{Bool: print the output from nlopt to check optimisation progress.}
 }
 \value{
 return all_metrics:

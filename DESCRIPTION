@@ -1,17 +1,24 @@
 Package: CalibValidRothC
 Type: Package
 Title: Calibration and Validation of RothC
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     person("Marcos", "Alves", , "marcos.alves@agreena.com", role = c("aut", "cre"))
-Description: Calibrate and validate RothC with model imputs collected from papers into the google corresponding spreadsheet 
+Description: Calibrate and validate RothC with model inputs collected from papers into the google corresponding spreadsheet 
 License: use_mit_license()
+Depends: 
+    R (>= 2.10),
+    AgreenaRothC2
 Imports:
     nloptr,
-	  SoilR,
-	  jsonlite,
-	  ggplot2,
-	  Metrics
+    SoilR,
+    jsonlite,
+    ggplot2,
+    Metrics,
+    dplyr,
+    magrittr,
+    logger,
+    patchwork
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
@@ -21,7 +28,4 @@ Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Config/testthat/edition: 3
-Depends: 
-    R (>= 2.10),
-    AgreenaRothC2
 LazyData: true
