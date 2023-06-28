@@ -6,12 +6,12 @@
 #' @return return bias
 #' @export
 
-test_fields <- function(x){
+test_fields <- function(x) {
   test_input <- NULL
   tryCatch(
     expr = {
       for (i in 1:nrow(x)) {
-        test_out[i] <- sum(tail(ag_rothC(x[i, ], write = FALSE), 1))
+        test_out[i] <- sum(tail(AgreenaRothC2::ag_rothC(x[i, ], write = FALSE), 1))
       }
     },
     error = function(e) {

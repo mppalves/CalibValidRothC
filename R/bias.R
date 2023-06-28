@@ -8,13 +8,11 @@
 #' @export
 
 bias <- function(actual, predicted) {
-
   if (length(actual) != length(predicted)) {
-    stop("vector with actual and preduction have different sizes")
+    stop("vector with actual and prediction have different sizes")
   }
 
   actual <- as.numeric(actual)
-
   res <- sum(predicted - actual) / length(predicted)
   return(res)
 }

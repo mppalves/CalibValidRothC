@@ -10,7 +10,7 @@ bias_rmse(x_test, y_test, y_pred)
 \item{x}{data source pro processed via \link{expand_data_set}}
 }
 \value{
-return bias ans rmse
+return bias and rmse
 }
 \description{
 Function to test if all fields are working. It runs every field once to check if the pre processing is working
