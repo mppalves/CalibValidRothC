@@ -71,6 +71,7 @@ calibration <- function(
       y_train <- y[train_indices]
       x_test <- x[test_indices, ]
       y_test <- y[test_indices]
+      n_test <- length(test_indices)
       train_data <- list(x_train = x_train, y_train = y_train)
 
       # fit calibration parameters
@@ -89,7 +90,13 @@ calibration <- function(
       )
 
       y_pred <- simulations(res$solution, test_data = x_test)
-      return(dplyr::bind_cols(bias_rmse(x_test, y_test, y_pred), "fold" = j))
+      res_tbl <- dplyr::bind_cols(
+        bias_rmse(x_test, y_test, y_pred), 
+        fold = j, 
+        fold_test_size = n_test
+      )
+
+      return(res_tbl)
     })
 
     all_metrics[[i]] <- dplyr::bind_cols(dplyr::bind_rows(metrics), "climate_zone" = cz[i])
