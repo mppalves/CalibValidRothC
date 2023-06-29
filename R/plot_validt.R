@@ -32,7 +32,12 @@ plot_validt <- function(Cis, plots_path) {
     p3 <- ggplot2::ggplot(groups[[i]], ggplot2::aes(x = 1:nrow(groups[[i]]), y = predicted_diff)) +
       ggplot2::geom_point(ggplot2::aes(colour = as.factor(fill))) +
       ggplot2::geom_errorbar(ggplot2::aes(ymin = cilower, ymax = ciupper), width = 0.4) +
-      ggplot2::scale_color_manual(values = c("black", "red")) +
+      ggplot2::scale_color_manual(
+        values = c(
+          "Inside C.I." = "black", 
+          "Outside C.I." = "red"
+        )
+      ) +
       ggplot2::labs(
         title = paste("C"),
         x = expression(paste("i"^{
