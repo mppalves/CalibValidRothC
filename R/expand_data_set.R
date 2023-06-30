@@ -43,11 +43,14 @@
 
 
 expand_data_set <- function(x) {
-
   # Function to recursively unlist null values in a nested list
   unlist_null <- function(x) {
-    if (is.null(x)) return(NA)
-    if (is.list(x)) return(sapply(x, unlist_null))
+    if (is.null(x)) {
+      return(NA)
+    }
+    if (is.list(x)) {
+      return(sapply(x, unlist_null))
+    }
     return(x)
   }
 
@@ -68,7 +71,7 @@ expand_data_set <- function(x) {
   x$`BI Converted Value`[empty_bi_c] <- lapply(split_rotations[empty_bi_c], function(split) paste(rep("NA", length(split)), collapse = ","))
 
   # Perform some calculations and assignments
-  fert_conversion <- x[,c("Manure application (MA) original value", "MA original unit", "fert_id")]
+  fert_conversion <- x[, c("Manure application (MA) original value", "MA original unit", "fert_id")]
   fert_converted <- convert_to_tc_per_ha_fert(fert_conversion)
   x$org_fert_carb <- fert_converted$values
   x$fert_c_content <- fert_converted$fert_c_content
@@ -91,12 +94,24 @@ expand_data_set <- function(x) {
   new_rows <- data.frame()
 
   # Preparing columns for processing
-  x$`SOC Start Original Value` <- x$`SOC Start Original Value` %>% unlist_null() %>% as.character()
-  x$`SOC End Original Value` <- x$`SOC End Original Value` %>% unlist_null() %>% as.character()
-  x$`Sampling depth increment` <- x$`Sampling depth increment` %>% unlist_null() %>% as.character()
-  x$temp_soil_depth <- x$`Sampling depth increment` %>% unlist_null() %>% as.character()
-  x$`Bulk Density`<- x$`Bulk Density` %>% unlist_null() %>% as.character()
-  x$bd_back <- x$`Bulk Density` %>% unlist_null() %>% as.character()
+  x$`SOC Start Original Value` <- x$`SOC Start Original Value` %>%
+    unlist_null() %>%
+    as.character()
+  x$`SOC End Original Value` <- x$`SOC End Original Value` %>%
+    unlist_null() %>%
+    as.character()
+  x$`Sampling depth increment` <- x$`Sampling depth increment` %>%
+    unlist_null() %>%
+    as.character()
+  x$temp_soil_depth <- x$`Sampling depth increment` %>%
+    unlist_null() %>%
+    as.character()
+  x$`Bulk Density` <- x$`Bulk Density` %>%
+    unlist_null() %>%
+    as.character()
+  x$bd_back <- x$`Bulk Density` %>%
+    unlist_null() %>%
+    as.character()
 
   # Column indices
   col_depth <- which(colnames(x) == "Sampling depth increment")
@@ -148,17 +163,17 @@ expand_data_set <- function(x) {
   }
 
   toremove <- as.logical(toremove)
-  x <- rbind(x[!toremove,], new_rows)
+  x <- rbind(x[!toremove, ], new_rows)
   x <- x[order(x$`Field ID`), ]
-  x[,col_depth] <- as.numeric(unlist(x[,col_depth]))
-  x[,col_end] <- as.numeric(unlist(x[,col_end]))
-  x[,col_start] <- as.numeric(unlist(x[,col_start]))
-  x[,col_temp] <- as.numeric(unlist(x[,col_temp]))
-  x[,col_bd] <- as.numeric(unlist(x[,col_bd]))
+  x[, col_depth] <- as.numeric(unlist(x[, col_depth]))
+  x[, col_end] <- as.numeric(unlist(x[, col_end]))
+  x[, col_start] <- as.numeric(unlist(x[, col_start]))
+  x[, col_temp] <- as.numeric(unlist(x[, col_temp]))
+  x[, col_bd] <- as.numeric(unlist(x[, col_bd]))
 
   # Replace NA values in Bulk Density column with values based on Latitude, Longitude, and temp_soil_depth
-  bd <- apply(x, 1, function(x) ifelse(is.na(x$`Bulk Density`), environmental_variables(x$Latitude, x$Longitude, x$temp_soil_depth)[1,"BD"], x$`Bulk Density`))
-  x[,col_bd] <- as.numeric(unlist(bd))
+  bd <- apply(x, 1, function(x) ifelse(is.na(x$`Bulk Density`), environmental_variables(x$Latitude, x$Longitude, x$temp_soil_depth)[1, "BD"], x$`Bulk Density`))
+  x[, col_bd] <- as.numeric(unlist(bd))
 
   # Drop rows with NA values in specific columns
   x <- x %>% tidyr::drop_na(`SOC Start Original Value`, `SOC End Original Value`, `Sampling depth increment`, CFGs)
@@ -167,18 +182,22 @@ expand_data_set <- function(x) {
   x$`Standardized Unit` <- sapply(x$`SOC Original Unit`, standardize_units)
 
   # convert initial and final SOC from original units to tC/ha
-  x$`SOC Start Converted` <-  apply(x, 1, function(x) {
-    convert_to_tc_per_ha(value = x$`SOC Start Original Value`,
-                         sampling_depth = x$temp_soil_depth,
-                         bulk_density = x$`Bulk Density`,
-                         unit_measure = x$`Standardized Unit`)
+  x$`SOC Start Converted` <- apply(x, 1, function(x) {
+    convert_to_tc_per_ha(
+      value = x$`SOC Start Original Value`,
+      sampling_depth = x$temp_soil_depth,
+      bulk_density = x$`Bulk Density`,
+      unit_measure = x$`Standardized Unit`
+    )
   })
 
-  x$`SOC End Converted` <-  apply(x, 1, function(x) {
-    convert_to_tc_per_ha(value = x$`SOC End Original Value`,
-                         sampling_depth = x$temp_soil_depth,
-                         bulk_density = x$`Bulk Density`,
-                         unit_measure = x$`Standardized Unit`)
+  x$`SOC End Converted` <- apply(x, 1, function(x) {
+    convert_to_tc_per_ha(
+      value = x$`SOC End Original Value`,
+      sampling_depth = x$temp_soil_depth,
+      bulk_density = x$`Bulk Density`,
+      unit_measure = x$`Standardized Unit`
+    )
   })
 
   # Removing spaces and special characters from column names

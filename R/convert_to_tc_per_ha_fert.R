@@ -35,8 +35,8 @@ convert_to_tc_per_ha_fert <- function(data) {
     carbon_content <- get_carbon_content(fert_id)
     converted_values <- suppressWarnings(as.numeric(values) * conversion_factor * carbon_content)
     converted_data[i, "values"] <- toString(converted_values)
-    converted_data[i,"fert_c_content"] <- carbon_content
-    converted_data[i,"fert_conversion_factor"] <- conversion_factor
+    converted_data[i, "fert_c_content"] <- carbon_content
+    converted_data[i, "fert_conversion_factor"] <- conversion_factor
   }
   return(converted_data)
 }
@@ -51,7 +51,6 @@ convert_to_tc_per_ha_fert <- function(data) {
 #'
 
 get_conversion_factor <- function(unit_measure) {
-
   if (is.na(unit_measure) | unit_measure == "NA" | is.null(unit_measure) | unit_measure == "NULL") {
     return(0)
   }
@@ -76,7 +75,6 @@ get_conversion_factor <- function(unit_measure) {
 #'
 
 get_carbon_content <- function(fert_id) {
-
   if (is.na(fert_id) | fert_id == "NA" | is.null(fert_id) | fert_id == "NULL") {
     return(0)
   }
@@ -89,6 +87,5 @@ get_carbon_content <- function(fert_id) {
     stop("Invalid fert_id.")
   }
 
-  return(as.numeric(subset_table$carbon_content)/100) # values in %
+  return(as.numeric(subset_table$carbon_content) / 100) # values in %
 }
-

@@ -32,7 +32,7 @@ convert_to_tc_per_ha <- function(unit_measure, value, sampling_depth, bulk_densi
     "g C/kg" = bulk_density * sampling_depth / 10,
     "g C/m^2" = 1 / 100,
     "kg/ha" = 1 / 1000,
-    "kg/layer" = 10000/100
+    "kg/layer" = 10000 / 100
   )
 
   # Check if the unit measure exists in the conversion table

@@ -4,6 +4,8 @@
 #'
 #' @param x data source pro processed via \link{expand_data_set}
 #' @return return bias and rmse
+#' @importFrom Metrics rmse
+#' @importFrom dplyr group_by summarise
 #' @export
 
 bias_rmse <- function(x_test, y_test, y_pred) {

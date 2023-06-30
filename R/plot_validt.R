@@ -5,6 +5,8 @@
 #' @param x data source pro processed via \link{expand_data_set}
 #' @return return bias
 #' @import patchwork
+#' @import ggplot2
+#' @importFrom dplyr group_split
 #' @export
 
 plot_validt <- function(Cis, plots_path) {
@@ -34,7 +36,7 @@ plot_validt <- function(Cis, plots_path) {
       ggplot2::geom_errorbar(ggplot2::aes(ymin = cilower, ymax = ciupper), width = 0.4) +
       ggplot2::scale_color_manual(
         values = c(
-          "Inside C.I." = "black", 
+          "Inside C.I." = "black",
           "Outside C.I." = "red"
         )
       ) +

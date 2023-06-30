@@ -19,7 +19,6 @@
 #' # Output the converted dataframe
 #' print(converted_data)
 #'
-#' @importFrom dplyr mutate
 #' @importFrom purrr map flatten
 #' @export
 
@@ -36,7 +35,7 @@ fix_column_type <- function(data) {
       if (is.null(x) || is.na(x)) {
         "NA"
       } else if (is.list(x)) {
-        paste(unlist(flatten(x)), collapse = ",")
+        paste(unlist(purrr::flatten(x)), collapse = ",")
       } else {
         x
       }

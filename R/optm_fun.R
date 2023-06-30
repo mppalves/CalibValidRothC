@@ -6,6 +6,7 @@
 #' @param x_train input data.frame
 #' @param y_train validation input
 #' @return return mse
+#' @importFrom AgreenaRothC2 ag_rothC
 #' @export
 
 optm_fun <- function(params, train_data) {

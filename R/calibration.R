@@ -10,6 +10,10 @@
 #' @param print_nlopt Bool: print the output from nlopt to check optimisation progress.
 #' @return return all_metrics:
 #' @author Marcos Alves
+#' @importFrom logger log_warn log_trace
+#' @importFrom dplyr pull bind_cols bind_rows tibble
+#' @importFrom caret groupKFold
+#' @importForm nloptr nloptr
 #' @export
 
 calibration <- function(
@@ -18,8 +22,7 @@ calibration <- function(
     maxeval = 100,
     ub = 1.2,
     lb = 0.8,
-    print_nlopt = FALSE
-) {
+    print_nlopt = FALSE) {
   names(data_source) <- names(data_source) %>% gsub(" ", "_", .)
   names(data_source) <- names(data_source) %>% gsub("\\(", "", .)
   names(data_source) <- names(data_source) %>% gsub("\\)", "", .)
@@ -91,8 +94,8 @@ calibration <- function(
 
       y_pred <- simulations(res$solution, test_data = x_test)
       res_tbl <- dplyr::bind_cols(
-        bias_rmse(x_test, y_test, y_pred), 
-        fold = j, 
+        bias_rmse(x_test, y_test, y_pred),
+        fold = j,
         fold_test_size = n_test
       )
 

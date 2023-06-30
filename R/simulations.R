@@ -5,6 +5,7 @@
 #' @param params vector of calibration coeficients
 #' @param test_data data frame containing the data to be run in test
 #' @return return mse
+#' @importFrom AgreenaRothC2 ag_rothC
 #' @export
 
 simulations <- function(params, test_data) {

@@ -11,7 +11,7 @@
 #' @export
 
 standardize_units <- function(unit) {
-  unit_conversion <- read.csv(file.path(getOption("calib_inputs"),"units.csv"), stringsAsFactors = FALSE)
+  unit_conversion <- read.csv(file.path(getOption("calib_inputs"), "units.csv"), stringsAsFactors = FALSE)
   # Look up the conversion factor based on the unit
   conversion_factor <- unit_conversion$Standardized_Unit[unit_conversion$Original_Unit == unit]
 

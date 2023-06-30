@@ -4,6 +4,7 @@
 #'
 #' @param x data source pro processed via \link{expand_data_set}
 #' @return return bias
+#' @importFrom dplyr mutate group_by summarise left_join n
 #' @export
 
 conf_int <- function(data_out) {
@@ -32,7 +33,7 @@ conf_int <- function(data_out) {
     dplyr::summarise(
       ci_percent = mean(fill == "Inside C.I.") * 100,
       fields_inside = sum(fill == "Inside C.I."),
-      total_fields = n(),
+      total_fields = dplyr::n(),
       addtional_fields_to_90 = max(0, ceiling((0.9 * total_fields) - fields_inside)),
       .groups = "drop"
     )
