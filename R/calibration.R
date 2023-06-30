@@ -1,6 +1,7 @@
 #' @title Calibration
 #'
-#' @description Function that performs the calibration of RothC for the data set input
+#' @description Function that performs the calibration of RothC for the data set
+#' input
 #'
 #' @param data_source data source pro processed via \link{expand_data_set}
 #' @param stopval Finishing criteria by error size
@@ -17,7 +18,6 @@
 #' @export
 
 calibration <- function(data_source, stopval = 0.01, maxeval = 100, ub = 1.5, lb = 0.3) {
-
   names(data_source) <- names(data_source) %>% gsub(" ", "_", .)
   names(data_source) <- names(data_source) %>% gsub("\\(", "", .)
   names(data_source) <- names(data_source) %>% gsub("\\)", "", .)
@@ -64,33 +64,40 @@ calibration <- function(data_source, stopval = 0.01, maxeval = 100, ub = 1.5, lb
       y_test <- y[test_indices]
       train_data <- list("x_train" = x_train, "y_train" = y_train)
       # fit calibration parameters
-      res <- nloptr(x0 = x0, eval_f = optm_fun,
-                    lb = lb, ub = ub,
-                    opts = list("algorithm" = "NLOPT_GN_ORIG_DIRECT",
-                                "stopval" = stopval,
-                                "maxeval" = maxeval
-                                ),
-                    "train_data" = train_data)
+      res <- nloptr(
+        x0 = x0, eval_f = optm_fun,
+        lb = lb, ub = ub,
+        opts = list(
+          "algorithm" = "NLOPT_GN_ORIG_DIRECT",
+          "stopval" = stopval,
+          "maxeval" = maxeval
+        ),
+        "train_data" = train_data
+      )
       y_pred <- simulations(res$solution, test_data = x_test)
-      metrics[[j]] <- bind_cols(bias_rmse(x_test, y_test, y_pred),"fold" = j)
+      metrics[[j]] <- bind_cols(bias_rmse(x_test, y_test, y_pred), "fold" = j)
     }
-    all_metrics[[i]] <- bind_cols(bind_rows(metrics),"climate_zone" = cz[i])
+    all_metrics[[i]] <- bind_cols(bind_rows(metrics), "climate_zone" = cz[i])
 
-    res_all <- nloptr(x0 = x0, eval_f = optm_fun,
-                  lb = lb, ub = ub,
-                  opts = list("algorithm" = "NLOPT_GN_ORIG_DIRECT",
-                              "stopval" = stopval,
-                              "maxeval" = maxeval
-                  ),
-                  "train_data" = list("x_train" = x, "y_train" = y))$solution
+    res_all <- nloptr(
+      x0 = x0, eval_f = optm_fun,
+      lb = lb, ub = ub,
+      opts = list(
+        "algorithm" = "NLOPT_GN_ORIG_DIRECT",
+        "stopval" = stopval,
+        "maxeval" = maxeval
+      ),
+      "train_data" = list("x_train" = x, "y_train" = y)
+    )$solution
 
-    solution[i, c("cf3","cf4","cf5" )] <- res_all
+    solution[i, c("cf3", "cf4", "cf5")] <- res_all
     solution[i, "k"] <- klog
     data_out[[i]] <- bind_cols(x, tibble(soc_end_predicted = simulations(res_all, test_data = x)))
   }
   all_metrics <- bind_rows(all_metrics)
   data_out <- bind_rows(data_out)
+
+  suppressWarnings(rm(list = c("base_yields", "resid_mgmt", "crop_names", "yld2bio", "tillage_convert")))
+
   return(list("all_metrics" = all_metrics, "data_out" = data_out, "solution" = solution))
 }
-
-

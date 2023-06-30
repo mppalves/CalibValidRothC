@@ -21,7 +21,8 @@ calibration(data_source, stopval = 0.01, maxeval = 100, ub = 1.5, lb = 0.3)
 return all_metrics:
 }
 \description{
-Function that performs the calibration of RothC for the data set input
+Function that performs the calibration of RothC for the data set
+input
 }
 \author{
 Marcos Alves
