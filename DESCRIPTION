@@ -1,7 +1,7 @@
 Package: CalibValidRothC
 Type: Package
 Title: Calibration and Validation of RothC
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: 
     person("Marcos", "Alves", , "marcos.alves@agreena.com", role = c("aut", "cre"))
 Description: Calibrate and validate RothC with model inputs collected from papers into the google corresponding spreadsheet 

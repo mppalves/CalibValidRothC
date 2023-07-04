@@ -13,7 +13,7 @@
 #' @importFrom logger log_warn log_trace
 #' @importFrom dplyr pull bind_cols bind_rows tibble
 #' @importFrom caret groupKFold
-#' @importForm nloptr nloptr
+#' @importFrom nloptr nloptr
 #' @export
 
 calibration <- function(
