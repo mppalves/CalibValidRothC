@@ -1,11 +1,42 @@
-#' @title Test function
+#' Calculate Confidence Intervals
 #'
-#' @description Function to test if all fields are working. It runs every field once to check if the pre processing is working
+#' This function calculates confidence intervals for a given dataset.
 #'
-#' @param x data source pro processed via \link{expand_data_set}
-#' @return return bias
-#' @importFrom dplyr mutate group_by summarise left_join n
-#' @export
+#' @param data_out A data frame containing the necessary data.
+#'   It should include the following columns:
+#'   - SOC_End_Converted: Numeric vector representing the end converted SOC.
+#'   - SOC_Start_Converted: Numeric vector representing the start converted SOC.
+#'   - soc_end_predicted: Numeric vector representing the predicted SOC at the end.
+#'   - Practice_Category: Categorical vector representing practice categories.
+#'   - CFGs: Categorical vector representing CFGs.
+#'   - Climate_zones_IPCC: Categorical vector representing climate zones (IPCC).
+#'
+#' @return A list containing two data frames: Ci_percent and Ci.
+#'   - Ci_percent: A data frame summarizing the percentage of data points
+#'     inside the confidence interval for each group.
+#'   - Ci: A data frame containing the calculated confidence intervals
+#'     and additional information for each data point.
+#'
+#' @details The function calculates the confidence intervals using the t-distribution
+#' with 90% prediction interval (5% on either side) due to low sample size (n) and estimated standard deviation (sd).
+#'
+#' @import dplyr
+#' @usage conf_int(data_out)
+#' @examples
+#' data_out <- data.frame(
+#'   SOC_End_Converted = c(10, 12, 15, 8),
+#'   SOC_Start_Converted = c(5, 9, 10, 7),
+#'   soc_end_predicted = c(9, 11, 13, 6),
+#'   Practice_Category = c("A", "B", "A", "B"),
+#'   CFGs = c("CFG1", "CFG2", "CFG1", "CFG2"),
+#'   Climate_zones_IPCC = c("Zone1", "Zone2", "Zone1", "Zone2")
+#' )
+#' conf_int(data_out)
+#'
+#' @seealso See \code{\link{qt}} for details on the t-distribution.
+#' @importFrom stats qt
+#'@export
+
 
 conf_int <- function(data_out) {
   diffs <- data_out %>%

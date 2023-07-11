@@ -2,16 +2,50 @@
 % Please edit documentation in R/conf_int.R
 \name{conf_int}
 \alias{conf_int}
-\title{Test function}
+\title{Calculate Confidence Intervals}
 \usage{
 conf_int(data_out)
 }
 \arguments{
-\item{x}{data source pro processed via \link{expand_data_set}}
+\item{data_out}{A data frame containing the necessary data.
+It should include the following columns:
+\itemize{
+\item SOC_End_Converted: Numeric vector representing the end converted SOC.
+\item SOC_Start_Converted: Numeric vector representing the start converted SOC.
+\item soc_end_predicted: Numeric vector representing the predicted SOC at the end.
+\item Practice_Category: Categorical vector representing practice categories.
+\item CFGs: Categorical vector representing CFGs.
+\item Climate_zones_IPCC: Categorical vector representing climate zones (IPCC).
+}}
 }
 \value{
-return bias
+A list containing two data frames: Ci_percent and Ci.
+\itemize{
+\item Ci_percent: A data frame summarizing the percentage of data points
+inside the confidence interval for each group.
+\item Ci: A data frame containing the calculated confidence intervals
+and additional information for each data point.
+}
 }
 \description{
-Function to test if all fields are working. It runs every field once to check if the pre processing is working
+This function calculates confidence intervals for a given dataset.
+}
+\details{
+The function calculates the confidence intervals using the t-distribution
+with 90\% prediction interval (5\% on either side) due to low sample size (n) and estimated standard deviation (sd).
+}
+\examples{
+data_out <- data.frame(
+  SOC_End_Converted = c(10, 12, 15, 8),
+  SOC_Start_Converted = c(5, 9, 10, 7),
+  soc_end_predicted = c(9, 11, 13, 6),
+  Practice_Category = c("A", "B", "A", "B"),
+  CFGs = c("CFG1", "CFG2", "CFG1", "CFG2"),
+  Climate_zones_IPCC = c("Zone1", "Zone2", "Zone1", "Zone2")
+)
+conf_int(data_out)
+
+}
+\seealso{
+See \code{\link{qt}} for details on the t-distribution.
 }

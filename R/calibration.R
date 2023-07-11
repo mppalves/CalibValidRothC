@@ -92,7 +92,11 @@ calibration <- function(
         train_data = train_data
       )
 
-      y_pred <- simulations(res$solution, test_data = x_test)
+      tryCatch(expr = {
+        y_pred <- simulations(res$solution, test_data = x_test)
+      },  error = function(e) {
+        browser()
+      })
       res_tbl <- dplyr::bind_cols(
         bias_rmse(x_test, y_test, y_pred),
         fold = j,
@@ -102,7 +106,7 @@ calibration <- function(
       return(res_tbl)
     })
 
-    all_metrics[[i]] <- dplyr::bind_cols(dplyr::bind_rows(metrics), "climate_zone" = cz[i])
+    all_metrics[[i]] <- dplyr::bind_cols(dplyr::bind_rows(metrics), "Climate_zones_IPCC" = cz[i])
 
     logger::log_trace("Starting final calibration")
     res_all <- nloptr::nloptr(
