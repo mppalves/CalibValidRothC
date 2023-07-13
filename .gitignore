@@ -4,6 +4,6 @@ CalibValidRothC.Rproj
 .Rproj.user
 .Ruserdata
 avg_yld.xlsx
-
 # something downloads a lotta input data
 tests/testthat/inputs
+.DS_store
