@@ -54,7 +54,7 @@ get_conversion_factor <- function(unit_measure) {
   if (is.na(unit_measure) | unit_measure == "NA" | is.null(unit_measure) | unit_measure == "NULL") {
     return(0)
   }
-  conversion_table <- read.csv(file.path(getOption("calib_inputs"), "unit_conversion_fert.csv"), stringsAsFactors = FALSE)
+  conversion_table <- read.csv(file.path(getOption("param_inputs"), "unit_conversion_fert.csv"), stringsAsFactors = FALSE)
 
   subset_table <- subset(conversion_table, original_unit == unit_measure)
 
@@ -79,7 +79,7 @@ get_carbon_content <- function(fert_id) {
     return(0)
   }
 
-  fert_table <- read.csv(file.path(getOption("calib_inputs"), "organic_fert_composition.csv"), stringsAsFactors = FALSE)
+  fert_table <- read.csv(file.path(getOption("param_inputs"), "organic_fert_composition.csv"), stringsAsFactors = FALSE)
 
   subset_table <- subset(fert_table, id == fert_id)
 
